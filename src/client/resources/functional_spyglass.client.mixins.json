@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "functional_spyglass.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"AbstractClientPlayerFovMixin",
+		"MouseHandlerSensitivityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

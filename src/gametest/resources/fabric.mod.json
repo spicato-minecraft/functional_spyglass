@@ -1,0 +1,17 @@
+{
+	"schemaVersion": 1,
+	"id": "functional_spyglass_test",
+	"version": "${version}",
+	"name": "Functional Spyglass Game Tests",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-gametest": [
+			"functional_spyglass.gametest.ModLoadsGameTest"
+		]
+	},
+	"depends": {
+		"functional_spyglass": "*",
+		"fabric-api": "*",
+		"minecraft": "~1.21.11"
+	}
+}

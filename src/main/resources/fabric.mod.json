@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "functional_spyglass",
+	"version": "${version}",
+	"name": "Functional Spyglass",
+	"description": "Three zoom levels on the vanilla spyglass, cycled with left-click while scoping.",
+	"authors": [
+		"spicato"
+	],
+	"contact": {
+		"homepage": "https://github.com/spicato-minecraft/functional_spyglass",
+		"sources": "https://github.com/spicato-minecraft/functional_spyglass"
+	},
+	"license": "CC0-1.0",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"functional_spyglass.FunctionalSpyglass"
+		],
+		"client": [
+			"functional_spyglass.FunctionalSpyglassClient"
+		]
+	},
+	"mixins": [
+		{
+			"config": "functional_spyglass.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
