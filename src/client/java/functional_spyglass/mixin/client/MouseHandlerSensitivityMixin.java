@@ -18,7 +18,7 @@ public class MouseHandlerSensitivityMixin {
 	@ModifyVariable(method = "turnPlayer", at = @At("STORE"), ordinal = 1)
 	private double functionalSpyglass$scaleScopedSensitivity(double cubedSensitivity) {
 		if (this.minecraft.player != null && this.minecraft.player.isScoping()) {
-			return cubedSensitivity * SpyglassZoom.sensitivityScaleVsVanillaSpyglass();
+			return cubedSensitivity * SpyglassZoom.sensitivityScale();
 		}
 		return cubedSensitivity;
 	}

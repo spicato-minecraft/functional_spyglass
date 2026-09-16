@@ -24,6 +24,12 @@ public final class SpyglassConfig {
 	public static final double FOV_MIN = 1.0;
 	public static final double FOV_MAX = 70.0;
 	public static final double VANILLA_SPYGLASS_FOV_SCALE = 0.1;
+	public static final double LOOK_CURVE_MIN = 0.0;
+	public static final double LOOK_CURVE_MAX = 1.0;
+	public static final double LOOK_CURVE_DEFAULT = 0.5;
+	public static final double LOOK_SPEED_MIN = 0.25;
+	public static final double LOOK_SPEED_MAX = 2.0;
+	public static final double LOOK_SPEED_DEFAULT = 1.0;
 
 	private static volatile SpyglassConfig instance;
 	private static volatile boolean skipDiskReload;
@@ -34,6 +40,10 @@ public final class SpyglassConfig {
 		public double level_1_fov = 50.0;
 		public double level_2_fov = 16.0;
 		public double level_3_fov = 6.0;
+		/** 0 = vanilla spyglass yaw at every FOV; 1 = mouse ∝ FOV; 0.5 = sqrt. */
+		public Double look_curve;
+		/** Extra multiplier on scoped look after the curve. */
+		public Double look_speed;
 	}
 
 	public static SpyglassConfig get() {
@@ -124,6 +134,20 @@ public final class SpyglassConfig {
 		};
 	}
 
+	public double lookCurve() {
+		if (zoom == null || zoom.look_curve == null) {
+			return LOOK_CURVE_DEFAULT;
+		}
+		return clampRange(zoom.look_curve, LOOK_CURVE_MIN, LOOK_CURVE_MAX, LOOK_CURVE_DEFAULT);
+	}
+
+	public double lookSpeed() {
+		if (zoom == null || zoom.look_speed == null) {
+			return LOOK_SPEED_DEFAULT;
+		}
+		return clampRange(zoom.look_speed, LOOK_SPEED_MIN, LOOK_SPEED_MAX, LOOK_SPEED_DEFAULT);
+	}
+
 	public void save() {
 		try {
 			saveTo(FabricLoader.getInstance().getConfigDir().resolve(FILE_NAME));
@@ -147,6 +171,15 @@ public final class SpyglassConfig {
 		zoom.level_1_fov = clamp(zoom.level_1_fov);
 		zoom.level_2_fov = clamp(zoom.level_2_fov);
 		zoom.level_3_fov = clamp(zoom.level_3_fov);
+		zoom.look_curve = lookCurve();
+		zoom.look_speed = lookSpeed();
+	}
+
+	static double clampRange(double value, double min, double max, double fallback) {
+		if (Double.isNaN(value)) {
+			return fallback;
+		}
+		return Math.min(max, Math.max(min, value));
 	}
 
 	static double clamp(double fov) {

@@ -1,6 +1,7 @@
 package functional_spyglass.client;
 
 import functional_spyglass.config.SpyglassConfig;
+import functional_spyglass.zoom.ZoomSensitivity;
 import functional_spyglass.zoom.ZoomState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -34,12 +35,12 @@ public final class SpyglassZoom {
 	}
 
 	/**
-	 * Vanilla spyglass FOV is {@code options.fov * 0.1}. Scale mouse travel so a
-	 * given hand motion covers a similar on-screen arc at every zoom step.
+	 * {@code lookSpeed * (currentFov / vanillaSpyglassFov) ^ lookCurve} on vanilla's
+	 * scoped {@code f} path. Tunable from pack Debug admin.
 	 */
-	public static double sensitivityScaleVsVanillaSpyglass() {
-		float vanillaScoped = Math.max(1.0F, Minecraft.getInstance().options.fov().get().intValue())
-				* (float) SpyglassConfig.VANILLA_SPYGLASS_FOV_SCALE;
-		return currentFov() / vanillaScoped;
+	public static double sensitivityScale() {
+		float unaided = Math.max(1.0F, Minecraft.getInstance().options.fov().get().intValue());
+		SpyglassConfig config = SpyglassConfig.get();
+		return ZoomSensitivity.scopedScale(currentFov(), unaided, config.lookCurve(), config.lookSpeed());
 	}
 }

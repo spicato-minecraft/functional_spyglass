@@ -35,7 +35,9 @@ class SpyglassConfigTest {
 				  "zoom": {
 				    "level_1_fov": 40.0,
 				    "level_2_fov": 12.0,
-				    "level_3_fov": 5.0
+				    "level_3_fov": 5.0,
+				    "look_curve": 0.25,
+				    "look_speed": 0.8
 				  }
 				}
 				""");
@@ -43,6 +45,8 @@ class SpyglassConfigTest {
 		assertEquals(40.0, loaded.fovForIndex(0));
 		assertEquals(12.0, loaded.fovForIndex(1));
 		assertEquals(5.0, loaded.fovForIndex(2));
+		assertEquals(0.25, loaded.lookCurve());
+		assertEquals(0.8, loaded.lookSpeed());
 		assertEquals(40.0, SpyglassConfig.get().fovForIndex(0));
 	}
 
@@ -54,5 +58,22 @@ class SpyglassConfigTest {
 		config.normalize();
 		assertEquals(SpyglassConfig.FOV_MIN, config.zoom.level_1_fov);
 		assertEquals(SpyglassConfig.FOV_MAX, config.zoom.level_3_fov);
+	}
+
+	@Test
+	void missingLookKeysUseDefaults(@TempDir Path tempDir) throws Exception {
+		Path file = tempDir.resolve("functional_spyglass.json");
+		Files.writeString(file, """
+				{
+				  "zoom": {
+				    "level_1_fov": 40.0,
+				    "level_2_fov": 12.0,
+				    "level_3_fov": 5.0
+				  }
+				}
+				""");
+		SpyglassConfig loaded = SpyglassConfig.reloadFrom(tempDir);
+		assertEquals(SpyglassConfig.LOOK_CURVE_DEFAULT, loaded.lookCurve());
+		assertEquals(SpyglassConfig.LOOK_SPEED_DEFAULT, loaded.lookSpeed());
 	}
 }
