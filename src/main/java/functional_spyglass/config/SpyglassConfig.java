@@ -30,6 +30,10 @@ public final class SpyglassConfig {
 	public static final double LOOK_SPEED_MIN = 0.25;
 	public static final double LOOK_SPEED_MAX = 2.0;
 	public static final double LOOK_SPEED_DEFAULT = 1.0;
+	public static final double LOOK_MIN_DEFAULT = 0.7;
+	public static final double LOOK_MAX_DEFAULT = 1.4;
+	public static final double LOOK_RANGE_MIN = 0.05;
+	public static final double LOOK_RANGE_MAX = 3.0;
 
 	private static volatile SpyglassConfig instance;
 	private static volatile boolean skipDiskReload;
@@ -40,10 +44,14 @@ public final class SpyglassConfig {
 		public double level_1_fov = 50.0;
 		public double level_2_fov = 16.0;
 		public double level_3_fov = 6.0;
-		/** 0 = vanilla spyglass yaw at every FOV; 1 = mouse ∝ FOV; 0.5 = sqrt. */
+		/** 0 = look min at every zoom; 1 = linear min→max; 0.5 = sqrt. */
 		public Double look_curve;
-		/** Extra multiplier on scoped look after the curve. */
+		/** Extra multiplier after min/max blend. */
 		public Double look_speed;
+		/** Look scale at lowest magnification (level 1). */
+		public Double look_min;
+		/** Look scale at highest magnification (level 3). */
+		public Double look_max;
 	}
 
 	public static SpyglassConfig get() {
@@ -148,6 +156,20 @@ public final class SpyglassConfig {
 		return clampRange(zoom.look_speed, LOOK_SPEED_MIN, LOOK_SPEED_MAX, LOOK_SPEED_DEFAULT);
 	}
 
+	public double lookMin() {
+		if (zoom == null || zoom.look_min == null) {
+			return LOOK_MIN_DEFAULT;
+		}
+		return clampRange(zoom.look_min, LOOK_RANGE_MIN, LOOK_RANGE_MAX, LOOK_MIN_DEFAULT);
+	}
+
+	public double lookMax() {
+		if (zoom == null || zoom.look_max == null) {
+			return LOOK_MAX_DEFAULT;
+		}
+		return clampRange(zoom.look_max, LOOK_RANGE_MIN, LOOK_RANGE_MAX, LOOK_MAX_DEFAULT);
+	}
+
 	public void save() {
 		try {
 			saveTo(FabricLoader.getInstance().getConfigDir().resolve(FILE_NAME));
@@ -173,6 +195,8 @@ public final class SpyglassConfig {
 		zoom.level_3_fov = clamp(zoom.level_3_fov);
 		zoom.look_curve = lookCurve();
 		zoom.look_speed = lookSpeed();
+		zoom.look_min = lookMin();
+		zoom.look_max = lookMax();
 	}
 
 	static double clampRange(double value, double min, double max, double fallback) {

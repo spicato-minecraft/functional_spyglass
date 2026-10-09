@@ -78,6 +78,6 @@ Behavior tests are tracked in [Notion Tasks](https://app.notion.com/p/3b716e8d4d
 
 ## Architecture
 
-Client mixins replace vanilla spyglass FOV scale (0.1 of option FOV) and consume attack while scoping to cycle zoom (vanilla discards those clicks). Scoped look is vanilla spyglass yaw times `look_speed × (currentFov / (0.1 × optionFov)) ^ look_curve`. Curve `0` keeps vanilla spyglass yaw at every zoom; `1` matches unaided pan; default `0.5` is sqrt. Tune from pack Debug admin (Spyglass). Config uses nested keys under `zoom` so `spicato_admin` can bind sliders without a compile dependency. Gameplay never imports the admin JAR.
+Client mixins replace vanilla spyglass FOV scale (0.1 of option FOV) and consume attack while scoping to cycle zoom (vanilla discards those clicks). Scoped look is vanilla spyglass yaw times `look_speed × mix(look_min, look_max, zoomT ^ look_curve)`. `look_min` is level 1 (low zoom); `look_max` is level 3 (high zoom). Curve `0` stays at min for every level; raising it speeds high magnification toward max. Tune from pack Debug admin (Spyglass). Config uses nested keys under `zoom` so `spicato_admin` can bind sliders without a compile dependency. Gameplay never imports the admin JAR.
 
 Proposal: [Functional spyglass — three zoom levels](https://app.notion.com/p/3d016e8d4da3810896eecab30b3134ad).

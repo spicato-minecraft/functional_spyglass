@@ -37,7 +37,9 @@ class SpyglassConfigTest {
 				    "level_2_fov": 12.0,
 				    "level_3_fov": 5.0,
 				    "look_curve": 0.25,
-				    "look_speed": 0.8
+				    "look_speed": 0.8,
+				    "look_min": 0.5,
+				    "look_max": 1.6
 				  }
 				}
 				""");
@@ -47,6 +49,8 @@ class SpyglassConfigTest {
 		assertEquals(5.0, loaded.fovForIndex(2));
 		assertEquals(0.25, loaded.lookCurve());
 		assertEquals(0.8, loaded.lookSpeed());
+		assertEquals(0.5, loaded.lookMin());
+		assertEquals(1.6, loaded.lookMax());
 		assertEquals(40.0, SpyglassConfig.get().fovForIndex(0));
 	}
 
@@ -75,5 +79,7 @@ class SpyglassConfigTest {
 		SpyglassConfig loaded = SpyglassConfig.reloadFrom(tempDir);
 		assertEquals(SpyglassConfig.LOOK_CURVE_DEFAULT, loaded.lookCurve());
 		assertEquals(SpyglassConfig.LOOK_SPEED_DEFAULT, loaded.lookSpeed());
+		assertEquals(SpyglassConfig.LOOK_MIN_DEFAULT, loaded.lookMin());
+		assertEquals(SpyglassConfig.LOOK_MAX_DEFAULT, loaded.lookMax());
 	}
 }

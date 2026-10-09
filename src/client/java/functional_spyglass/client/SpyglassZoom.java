@@ -35,12 +35,19 @@ public final class SpyglassZoom {
 	}
 
 	/**
-	 * {@code lookSpeed * (currentFov / vanillaSpyglassFov) ^ lookCurve} on vanilla's
-	 * scoped {@code f} path. Tunable from pack Debug admin.
+	 * {@code lookSpeed} times a min→max blend shaped by {@code lookCurve}.
+	 * Tunable from pack Debug admin.
 	 */
 	public static double sensitivityScale() {
-		float unaided = Math.max(1.0F, Minecraft.getInstance().options.fov().get().intValue());
 		SpyglassConfig config = SpyglassConfig.get();
-		return ZoomSensitivity.scopedScale(currentFov(), unaided, config.lookCurve(), config.lookSpeed());
+		return ZoomSensitivity.scopedScale(
+				currentFov(),
+				config.fovForIndex(0),
+				config.fovForIndex(2),
+				config.lookCurve(),
+				config.lookMin(),
+				config.lookMax(),
+				config.lookSpeed()
+		);
 	}
 }
