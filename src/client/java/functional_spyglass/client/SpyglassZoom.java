@@ -17,7 +17,7 @@ public final class SpyglassZoom {
 
 	public static void tick(Minecraft client) {
 		LocalPlayer player = client.player;
-		if (player == null || client.screen != null) {
+		if (player == null || client.gui.screen() != null) {
 			STATE.tickScoping(false);
 			return;
 		}
