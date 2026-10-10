@@ -29,9 +29,17 @@ fabricApi {
 		createSourceSet = true
 		modId = "functional_spyglass_test"
 		enableGameTests = true
-		enableClientGameTests = false
+		enableClientGameTests = true
 		eula = true
 	}
+}
+
+sourceSets.named("gametest") {
+	def client = sourceSets.named("client").get()
+	compileClasspath += client.output
+	compileClasspath += client.compileClasspath
+	runtimeClasspath += client.output
+	runtimeClasspath += client.runtimeClasspath
 }
 
 dependencies {

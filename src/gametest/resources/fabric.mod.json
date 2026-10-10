@@ -7,6 +7,12 @@
 	"entrypoints": {
 		"fabric-gametest": [
 			"functional_spyglass.gametest.ModLoadsGameTest"
+		],
+		"fabric-client-gametest": [
+			"functional_spyglass.clientgametest.ClientMixinApplySweep",
+			"functional_spyglass.clientgametest.ScopedFovMatchesLevel",
+			"functional_spyglass.clientgametest.AttackCyclesAndReset",
+			"functional_spyglass.clientgametest.ScopedSensitivityApplied"
 		]
 	},
 	"depends": {

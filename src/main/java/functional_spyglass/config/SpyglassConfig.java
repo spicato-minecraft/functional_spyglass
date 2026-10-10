@@ -26,11 +26,11 @@ public final class SpyglassConfig {
 	public static final double VANILLA_SPYGLASS_FOV_SCALE = 0.1;
 	public static final double LOOK_CURVE_MIN = 0.0;
 	public static final double LOOK_CURVE_MAX = 1.0;
-	public static final double LOOK_CURVE_DEFAULT = 0.5;
+	public static final double LOOK_CURVE_DEFAULT = 0.4;
 	public static final double LOOK_SPEED_MIN = 0.25;
 	public static final double LOOK_SPEED_MAX = 2.0;
 	public static final double LOOK_SPEED_DEFAULT = 1.0;
-	public static final double LOOK_MIN_DEFAULT = 0.7;
+	public static final double LOOK_MIN_DEFAULT = 1.4;
 	public static final double LOOK_MAX_DEFAULT = 1.4;
 	public static final double LOOK_RANGE_MIN = 0.05;
 	public static final double LOOK_RANGE_MAX = 3.0;
